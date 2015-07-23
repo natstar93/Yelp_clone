@@ -73,7 +73,7 @@ feature 'restaurants' do
     before do
       user = User.create email: 'tansaku@gmail.com', password: '12345678', password_confirmation: '12345678'
       login_as user
-      Restaurant.create name: 'KFC' 
+      Restaurant.create name: 'KFC', user_id: user.id
     end
 
     scenario 'let a user edit a restaurant' do
@@ -84,6 +84,14 @@ feature 'restaurants' do
       expect(page).to have_content 'Kentucky Fried Chicken'
       expect(current_path).to eq '/restaurants'
     end
+
+    scenario 'another user\'s restaurant' do
+      user2 = User.create email: 'natso@gmail.com', password: '12345678', password_confirmation: '12345678'
+      login_as user2
+      visit '/restaurants'
+      click_link 'Edit KFC'
+      expect(page).to have_content 'Cannot update'
+    end
   end
 
   context 'deleting restaurants' do
@@ -91,7 +99,7 @@ feature 'restaurants' do
     before do
       user = User.create email: 'tansaku@gmail.com', password: '12345678', password_confirmation: '12345678'
       login_as user
-      Restaurant.create name: 'KFC' 
+      Restaurant.create name: 'KFC', user_id: user.id
     end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
@@ -99,6 +107,15 @@ feature 'restaurants' do
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+    end
+
+    scenario 'another user\'s restaurant' do
+      user2 = User.create email: 'natso@gmail.com', password: '12345678', password_confirmation: '12345678'
+      login_as user2
+      visit '/restaurants'
+      click_link 'Delete KFC'
+      expect(page).to have_content 'KFC'
+      expect(page).to have_content 'KFC cannot be deleted'
     end
   end
 end
