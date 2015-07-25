@@ -52,4 +52,5 @@ group :test do
   gem 'devise'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem 'byebug'
 end

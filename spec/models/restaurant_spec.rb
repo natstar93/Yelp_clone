@@ -24,7 +24,7 @@ describe 'reviews' do
 
     let(:user) { User.create email: 'test@test.com' }
     let(:restaurant) { Restaurant.create name: 'Test' }
-    let(:review_params) { {rating: 5, thoughts: 'yum'} }
+    let(:review_params) { {rating: 4, thoughts: 'yum'} }
 
     subject(:review) { restaurant.reviews.build_with_user(review_params, user) }
 
@@ -49,6 +49,15 @@ describe 'reviews' do
       it 'returns that rating' do
         restaurant = Restaurant.create(name: 'The Ivy')
         restaurant.reviews.create(rating: 4)
+        expect(restaurant.average_rating).to eq 4
+      end
+    end
+
+    context 'multiple reviews' do
+      it 'returns the average' do
+        restaurant = Restaurant.create(name: 'The Ivy')
+        restaurant.reviews.create(rating: 3)
+        restaurant.reviews.create(rating: 5)
         expect(restaurant.average_rating).to eq 4
       end
     end
