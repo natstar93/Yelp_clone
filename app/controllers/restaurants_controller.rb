@@ -30,7 +30,7 @@ class RestaurantsController < ApplicationController
   def edit
     @restaurant = Restaurant.find(params[:id])
     if @restaurant.user != current_user
-      flash[:notice] = 'Cannot update'
+      flash[:notice] = "#{@restaurant.name} can only be edited by creator"
       redirect_to '/restaurants'
     end
   end
@@ -40,7 +40,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.user === current_user
       @restaurant.update(restaurant_params)
     else
-      flash[:notice] = 'Cannot update'
+      flash[:notice] = "#{@restaurant.name} can only be edited by creator"
     end
     redirect_to '/restaurants'
   end
@@ -51,7 +51,7 @@ class RestaurantsController < ApplicationController
       @restaurant.destroy
       flash[:notice] = 'Restaurant deleted successfully'
     else
-      flash[:notice] = "#{@restaurant.name} cannot be deleted"
+      flash[:notice] = "#{@restaurant.name} can only be deleted by creator"
     end
     redirect_to '/restaurants'
   end
