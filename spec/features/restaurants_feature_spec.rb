@@ -90,7 +90,7 @@ feature 'restaurants' do
       login_as user2
       visit '/restaurants'
       click_link 'Edit KFC'
-      expect(page).to have_content 'Cannot update'
+      expect(page).to have_content 'KFC can only be edited by creator'
     end
   end
 
@@ -115,7 +115,7 @@ feature 'restaurants' do
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).to have_content 'KFC'
-      expect(page).to have_content 'KFC cannot be deleted'
+      expect(page).to have_content 'KFC can only be deleted by creator'
     end
   end
 end
