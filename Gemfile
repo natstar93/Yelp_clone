@@ -52,5 +52,6 @@ group :test do
   gem 'devise'
   gem 'factory_girl'
   gem 'factory_girl_rails'
-  gem 'byebug'
+  gem 'poltergeist'
+  gem 'database_cleaner'
 end
